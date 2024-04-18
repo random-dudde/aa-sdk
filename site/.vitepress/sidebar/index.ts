@@ -30,7 +30,13 @@ export const sidebar: DefaultTheme.Sidebar = [
         text: "Migration Guides",
         collapsed: false,
         base: "/migration-guides",
-        items: [{ text: "Migrating to v3.x.x", link: "/migrating-to-v3" }],
+        items: [
+          { text: "Migrating to v3.x.x", link: "/migrating-to-v3" },
+          {
+            text: "EntryPoint v0.7",
+            link: "/entrypoint-v7",
+          },
+        ],
       },
     ],
   },
