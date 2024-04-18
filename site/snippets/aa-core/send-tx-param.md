@@ -1,3 +1,9 @@
+## Parameters
+
+### `SendTransactionParameters`
+
+Same as `viem` [`TransactionRequest`](https://viem.sh/docs/glossary/types#transactionrequest), but with the `from` field excluded
+
 ```ts
 export type SendTransactionParameters<
   TChain extends Chain | undefined = Chain | undefined,
@@ -9,12 +15,6 @@ export type SendTransactionParameters<
   GetAccountParameter<TAccount> &
   GetChainParameter<TChain, TChainOverride>;
 ```
-
-## Parameters
-
-### `SendTransactionParameters`
-
-Same as `viem` [`TransactionRequest`](https://viem.sh/docs/glossary/types#transactionrequest), but with the `from` field excluded
 
 - `overrides?:` [`UserOperationOverrides`](/resources/types#useroperationoverrides)
 

@@ -1,17 +1,16 @@
-```ts
-export type SendUserOperationParameters<
-  TAccount extends SmartContractAccount | undefined
-> = {
-  uo: UserOperationCallData | BatchUserOperationCallData;
-  overrides?: UserOperationOverrides;
-} & GetAccountParameter<TAccount>;
-```
-
 ## Parameters
 
-### [`SendUserOperationParameters`](/resources/types#SendUserOperationParameters)
+### `SendUserOperationParameters`
 
-- `uo:` [`UserOperationCallData`](/resources/types#SendUserOperationParameters) | [`BatchUserOperationCallData`](/resources/types#SendUserOperationParameters)
+::: details SendUserOperationParameters
+<<< @/../packages/core/src/actions/smartAccount/types.ts#SendUserOperationParameters
+:::
+
+- `uo:` [`UserOperationCallData`](/resources/types#UserOperationCallData) | [`BatchUserOperationCallData`](/resources/types#BatchUserOperationCallData)
+
+  ::: details UserOperationCallData
+  <<< @/../packages/core/src/types.ts#UserOperationCallData
+  :::
 
   - `target: Address` - the target of the call (equivalent to `to` in a transaction)
   - `data: Hex` - can be either `0x` or a call data string
