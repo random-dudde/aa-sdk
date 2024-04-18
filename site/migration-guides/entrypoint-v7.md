@@ -201,6 +201,8 @@ export type UserOperationOverrides<'0.6.0' | '0.7.0'> = {
 };
 ```
 
+Learn how to use `stateOverrides` parameter in `UserOperationOverrides` to estimate gas for simulated `UserOperation` by referring to the guide [`How to estimate gas of a user operation involving state overrides`](/using-smart-accounts/estimate-gas/estimate-user-op-gas-state-overrides).
+
 ### [`UserOperationEstimateGasResponse`](/resources/types#useroperationrstimategasresponse)
 
 Entrypoint v0.7 update includes the addition of `paymasterVerificationGasLimit`, the value used for paymaster verification, to the response of [`eth_estimateUserOperationGas`](https://eips.ethereum.org/EIPS/eip-4337#-eth_estimateuseroperationgas) RPC method. Accordingly, the `UserOperationEstimateGasResponse` for Entrypoint v0.7 user operation contains the added `paymasterVerificationGasLimit` value computed by the bundler if the user operation contains the `paymaster` field in the user operation request sent for gas estimation.
