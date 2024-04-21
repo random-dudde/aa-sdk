@@ -23,7 +23,7 @@ import { getAlchemyPaymasterAddress } from "../gas-manager.js";
 import { alchemyFeeEstimator } from "./feeEstimator.js";
 
 export type RequestGasAndPaymasterAndDataOverrides<
-  TEntryPointVersion extends EntryPointVersion
+  TEntryPointVersion extends EntryPointVersion = EntryPointVersion
 > = Partial<
   {
     maxFeePerGas:
@@ -54,7 +54,7 @@ export type RequestGasAndPaymasterAndDataOverrides<
 >;
 
 export type RequestPaymasterAndDataResponse<
-  TEntryPointVersion extends EntryPointVersion
+  TEntryPointVersion extends EntryPointVersion = EntryPointVersion
 > = TEntryPointVersion extends "0.6.0"
   ? {
       paymasterAndData: UserOperationRequest<"0.6.0">["paymasterAndData"];
@@ -64,9 +64,9 @@ export type RequestPaymasterAndDataResponse<
   : {};
 
 export type RequestGasAndPaymasterAndDataResponse<
-  TEntryPointVersion extends EntryPointVersion
+  TEntryPointVersion extends EntryPointVersion = EntryPointVersion
 > = Pick<
-  UserOperationRequest<EntryPointVersion>,
+  UserOperationRequest,
   | "callGasLimit"
   | "preVerificationGas"
   | "verificationGasLimit"
@@ -172,7 +172,9 @@ export function alchemyGasManagerMiddleware<C extends ClientWithAlchemyMethods>(
   };
 }
 
-const overrideField = <TEntryPointVersion extends EntryPointVersion>(
+const overrideField = <
+  TEntryPointVersion extends EntryPointVersion = EntryPointVersion
+>(
   field: keyof UserOperationFeeOptions<TEntryPointVersion>,
   overrides: UserOperationOverrides<TEntryPointVersion> | undefined,
   feeOptions: UserOperationFeeOptions<TEntryPointVersion> | undefined,
@@ -218,42 +220,44 @@ function requestGasAndPaymasterData<C extends ClientWithAlchemyMethods>(
       struct,
       { overrides: overrides_, feeOptions, account }
     ) => {
-      const userOperation: UserOperationRequest<EntryPointVersion> =
-        deepHexlify(await resolveProperties(struct));
+      const userOperation: UserOperationRequest = deepHexlify(
+        await resolveProperties(struct)
+      );
 
-      const overrides: RequestGasAndPaymasterAndDataOverrides<EntryPointVersion> =
-        filterUndefined({
+      const overrides: RequestGasAndPaymasterAndDataOverrides = filterUndefined(
+        {
           maxFeePerGas: overrideField(
             "maxFeePerGas",
-            overrides_ as UserOperationOverrides<EntryPointVersion>,
+            overrides_ as UserOperationOverrides,
             feeOptions,
             userOperation
           ),
           maxPriorityFeePerGas: overrideField(
             "maxPriorityFeePerGas",
-            overrides_ as UserOperationOverrides<EntryPointVersion>,
+            overrides_ as UserOperationOverrides,
             feeOptions,
             userOperation
           ),
           callGasLimit: overrideField(
             "callGasLimit",
-            overrides_ as UserOperationOverrides<EntryPointVersion>,
+            overrides_ as UserOperationOverrides,
             feeOptions,
             userOperation
           ),
           verificationGasLimit: overrideField(
             "verificationGasLimit",
-            overrides_ as UserOperationOverrides<EntryPointVersion>,
+            overrides_ as UserOperationOverrides,
             feeOptions,
             userOperation
           ),
           preVerificationGas: overrideField(
             "preVerificationGas",
-            overrides_ as UserOperationOverrides<EntryPointVersion>,
+            overrides_ as UserOperationOverrides,
             feeOptions,
             userOperation
           ),
-        });
+        }
+      );
 
       if (account.getEntryPoint().version === "0.7.0") {
         const paymasterVerificationGasLimit = overrideField<"0.7.0">(
