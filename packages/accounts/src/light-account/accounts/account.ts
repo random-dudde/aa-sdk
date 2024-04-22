@@ -80,6 +80,14 @@ export type CreateLightAccountParams<
 export async function createLightAccount<
   TTransport extends Transport = Transport,
   TSigner extends SmartAccountSigner = SmartAccountSigner,
+  TLightAccountVersion extends LightAccountVersion<"LightAccount"> = "v1.1.0"
+>(
+  config: CreateLightAccountParams<TTransport, TSigner, TLightAccountVersion>
+): Promise<LightAccount<TSigner, TLightAccountVersion>>;
+
+export async function createLightAccount<
+  TTransport extends Transport = Transport,
+  TSigner extends SmartAccountSigner = SmartAccountSigner,
   TLightAccountVersion extends LightAccountVersion<"LightAccount"> = LightAccountVersion<"LightAccount">,
   TEntryPointVersion extends GetEntryPointForLightAccountVersion<
     "LightAccount",

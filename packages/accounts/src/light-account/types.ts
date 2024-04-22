@@ -7,7 +7,7 @@ import {
 import { type Address, type Chain } from "viem";
 import type { LightAccountBase } from "./accounts/base";
 
-export type LightAccountType = "LightAccount" | "MultiOwnerLightAccount";
+export type LightAccountType = keyof IAccountVersionRegistryBase;
 
 export type AccountVersionDef<
   TLightAccountType extends LightAccountType = LightAccountType,
@@ -35,7 +35,19 @@ export type LightAccountVersionDef<
   TLightAccountVersion extends LightAccountVersion<TLightAccountType> = LightAccountVersion<TLightAccountType>
 > = IAccountVersionRegistry[TLightAccountType][TLightAccountVersion];
 
-export interface IAccountVersionRegistry {
+export interface IAccountVersionRegistryBase {
+  LightAccount: {
+    "v1.0.1": any;
+    "v1.0.2": any;
+    "v1.1.0": any;
+    "v2.0.0": any;
+  };
+  MultiOwnerLightAccount: {
+    "v2.0.0": any;
+  };
+}
+
+export interface IAccountVersionRegistry extends IAccountVersionRegistryBase {
   LightAccount: {
     /** @deprecated This version does not support 1271 signature validation */
     "v1.0.1": AccountVersionDef<"LightAccount", "v1.0.1", "0.6.0">;
@@ -95,6 +107,17 @@ export type GetLightAccountType<
   ? OneOf<TLightAccountType, LightAccountType>
   : LightAccountType;
 
+export type GetLightAccountVersion<
+  TAccount extends LightAccountBase | undefined,
+  TAccountOverride extends LightAccountBase = LightAccountBase
+> = GetAccountParameter<TAccount, TAccountOverride> extends LightAccountBase<
+  SmartAccountSigner,
+  LightAccountType,
+  infer TLightAccountVersion
+>
+  ? OneOf<TLightAccountVersion, LightAccountVersion>
+  : LightAccountVersion;
+
 export type GetEntryPointForLightAccountVersion<
   TLightAccountType extends LightAccountType = LightAccountType,
   TLightAccountVersion extends LightAccountVersion<TLightAccountType> = LightAccountVersion<TLightAccountType>
@@ -114,3 +137,9 @@ export type GetLightAccountTypesForVersion<
 > = TLightAccountVersion extends LightAccountVersion<infer TLightAccountType>
   ? TLightAccountType
   : LightAccountType;
+
+export type GetDefaultLightAccountVersion<
+  TLightAccountType extends LightAccountType = LightAccountType
+> = TLightAccountType extends "MultiOwnerLightAccount"
+  ? "v2.0.0" & LightAccountVersion
+  : "v1.1.0" & LightAccountVersion;

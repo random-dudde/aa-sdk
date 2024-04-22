@@ -15,12 +15,12 @@ import {
   polygonMumbai,
   sepolia,
   toRecord,
-  type SmartContractAccount,
 } from "@alchemy/aa-core";
 import { fromHex, type Address, type Chain } from "viem";
 import type { LightAccountBase } from "./accounts/base";
 import type {
   GetLightAccountType,
+  GetLightAccountVersion,
   IAccountVersionRegistry,
   LightAccountType,
   LightAccountVersion,
@@ -144,14 +144,15 @@ export const LightAccountUnsupported1271Factories = new Set(
 
 export async function getLightAccountVersionDef<
   TAccount extends LightAccountBase,
-  TLightAccountType extends GetLightAccountType<TAccount> = GetLightAccountType<TAccount>
+  TLightAccountType extends GetLightAccountType<TAccount> = GetLightAccountType<TAccount>,
+  TLightAccountVersion extends GetLightAccountVersion<TAccount> = GetLightAccountVersion<TAccount>
 >(
   account: TAccount,
   chain: Chain
-): Promise<LightAccountVersionDef<TLightAccountType>>;
+): Promise<LightAccountVersionDef<TLightAccountType, TLightAccountVersion>>;
 
 export async function getLightAccountVersionDef(
-  account: SmartContractAccount,
+  account: LightAccountBase,
   chain: Chain
 ): Promise<LightAccountVersionDef> {
   const accountType = account.source as LightAccountType;
@@ -198,3 +199,33 @@ export async function getLightAccountVersionDef(
 
   return AccountVersionRegistry[accountType][version];
 }
+
+/**
+ * @deprecated don't use this function as this function is replaced with getLightAccountVersionDef.
+ * Migrate to using getLightAccountVersionDef instead
+ */
+export async function getLightAccountVersion<
+  TAccount extends LightAccountBase,
+  TLightAccountType extends GetLightAccountType<TAccount> = GetLightAccountType<TAccount>
+>(
+  account: TAccount,
+  chain?: Chain
+): Promise<LightAccountVersion<TLightAccountType>>;
+
+export async function getLightAccountVersion(
+  account: LightAccountBase,
+  chain: Chain = supportedChains[0]
+): Promise<LightAccountVersion> {
+  return (await getLightAccountVersionDef(account, chain)).version;
+}
+
+// const a = await createLightAccount({
+//   chain: sepolia,
+//   transport: http(),
+//   signer: LocalAccountSigner.privateKeyToAccountSigner(generatePrivateKey()),
+// });
+
+// getLightAccountVersionDef(a, supportedChains[0]);
+// getLightAccountVersion(a);
+// const x = getEntryPoint(sepolia);
+// const v = getEntryPoint(polygonMumbai, { version: "0.7.0" });

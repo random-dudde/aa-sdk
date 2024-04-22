@@ -38,10 +38,29 @@ enum SignatureType {
   CONTRACT_WITH_ADDR = "0x02",
 }
 
+// export type LightAccountBase<
+//   TSigner extends SmartAccountSigner = SmartAccountSigner,
+//   TLightAccountType extends LightAccountType = LightAccountType,
+//   TLightAccountVersion extends LightAccountVersion<TLightAccountType> = LightAccountVersion<TLightAccountType>,
+//   TEntryPointVersion extends GetEntryPointForLightAccountVersion<
+//     TLightAccountType,
+//     TLightAccountVersion
+//   > = GetEntryPointForLightAccountVersion<
+//     TLightAccountType,
+//     TLightAccountVersion
+//   >
+// > = SmartContractAccountWithSigner<
+//   LightAccountType,
+//   TSigner,
+//   TEntryPointVersion
+// > & {
+//   getLightAccountVersion: () => TLightAccountVersion;
+// };
+
 export type LightAccountBase<
   TSigner extends SmartAccountSigner = SmartAccountSigner,
   TLightAccountType extends LightAccountType = LightAccountType,
-  TLightAccountVersion extends LightAccountVersion<TLightAccountType> = LightAccountVersion,
+  TLightAccountVersion extends LightAccountVersion<TLightAccountType> = LightAccountVersion<TLightAccountType>,
   TEntryPointVersion extends GetEntryPointForLightAccountVersion<
     TLightAccountType,
     TLightAccountVersion
@@ -50,7 +69,7 @@ export type LightAccountBase<
     TLightAccountVersion
   >
 > = SmartContractAccountWithSigner<
-  LightAccountType,
+  TLightAccountType,
   TSigner,
   TEntryPointVersion
 > & {
