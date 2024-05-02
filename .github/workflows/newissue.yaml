@@ -1,0 +1,15 @@
+name: issues
+on:
+  issues:
+    types: [opened]
+jobs:
+  add-comment:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Suggest
+        env:
+          TITLE: ${{ github.event.issue.title }}
+        run: ls "$TITLE" > suggest.md   
