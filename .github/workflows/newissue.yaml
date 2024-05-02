@@ -9,8 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run Suggest
-        env:
-          TITLE: ${{ github.event.issue.title }}
         run: echo "TITLE=${{ github.event.issue.title }}" >> $GITHUB_ENV
       - name: Echo
         run: cat suggest.md; echo 'DONE'
