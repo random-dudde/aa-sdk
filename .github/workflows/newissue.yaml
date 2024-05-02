@@ -11,6 +11,6 @@ jobs:
       - name: Run Suggest
         env:
           TITLE: ${{ github.event.issue.title }}
-        run: ls "$TITLE" > suggest.md;
+        run: ls '$TITLE' > suggest.md;
       - name: Echo
         run: cat suggest.md; echo 'DONE'
