@@ -1,6 +1,7 @@
 name: issues
 on:
   issues:
+    types: [labeled]
 jobs:
   add-comment:
     runs-on: ubuntu-latest
@@ -9,6 +10,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run Suggest
-        run: echo "TITLE=${{ github.event.issue.title }}" >> $GITHUB_ENV
-      - name: Echo
-        run: cat suggest.md; echo 'DONE'
+        run: echo "${{ github.event.label.name }} label added"
