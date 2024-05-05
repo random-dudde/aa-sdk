@@ -9,4 +9,4 @@ jobs:
       - name: Update GitHub issue
         env:
           GITHUB_ORIGINAL_TITLE: ${{ github.event.issue.title }}
-        run: printf $GITHUB_ORIGINAL_TITLE; echo 'DONE'
+        run: printf "$GITHUB_ORIGINAL_TITLE"; echo 'DONE'
