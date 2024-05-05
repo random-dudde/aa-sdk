@@ -5,9 +5,11 @@ on:
 jobs:
   add-comment:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
+    env:
+      GITHUB_ORIGINAL_TITLE: ${{ github.event.issue.title }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/github-script@v2.0.0
       - name: Run Suggest
-        run: echo "${{ github.event.label.name }} label added"
+        with:
+         script: |
+            const newTitle = `${process.env.GITHUB_ORIGINAL_TITLE}`
