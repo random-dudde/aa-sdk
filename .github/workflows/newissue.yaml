@@ -7,8 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update GitHub issue
-        uses: actions/github-script@v2.0.0
         env:
           GITHUB_ORIGINAL_TITLE: ${{ github.event.issue.title }}
-        with:
-          script: const newTitle = `${process.env.GITHUB_ORIGINAL_TITLE}`
+        run: echo $GITHUB_ORIGINAL_TITLE; ls -al; echo 'DONE'
