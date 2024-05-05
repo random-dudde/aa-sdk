@@ -5,11 +5,10 @@ on:
 jobs:
   add-comment:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_ORIGINAL_TITLE: ${{ github.event.issue.title }}
     steps:
-      - uses: actions/github-script@v2.0.0
-      - name: Run Suggest
+      - name: Update GitHub issue
+        uses: actions/github-script@v2.0.0
+        env:
+          GITHUB_ORIGINAL_TITLE: ${{ github.event.issue.title }}
         with:
-         script: |
-            const newTitle = `${process.env.GITHUB_ORIGINAL_TITLE}`
+          script: const newTitle = `${process.env.GITHUB_ORIGINAL_TITLE}`
