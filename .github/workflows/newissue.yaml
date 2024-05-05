@@ -9,4 +9,4 @@ jobs:
       - name: Update GitHub issue
         env:
           GITHUB_ORIGINAL_TITLE: ${{ github.event.issue.title }}
-        run: echo $GITHUB_ORIGINAL_TITLE > t.txt; ls -al; cat t.xt; echo 'DONE'
+        run: echo $GITHUB_ORIGINAL_TITLE > t.txt; ls -al; cat t.txt; echo 'DONE'
