@@ -1,7 +1,7 @@
 name: issues
 on:
   issues:
-    types: [labeled]
+    types: [opened]
 jobs:
   add-comment:
     runs-on: ubuntu-latest
@@ -9,4 +9,4 @@ jobs:
       - name: Update GitHub issue
         env:
           GITHUB_ORIGINAL_TITLE: ${{ github.event.issue.title }}
-        run: echo $GITHUB_ORIGINAL_TITLE > t.txt; ls -al; cat t.txt; echo 'DONE'
+        run: printf $GITHUB_ORIGINAL_TITLE; echo 'DONE'
